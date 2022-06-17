@@ -19,7 +19,7 @@ public class SecurityConfig {
                         .and()
                 .authorizeRequests() // 이제부터 인증절차에 대한 설정을 진행하겠다는 것입니다.
     //                .antMatchers() //특정 URL 에 대해서 어떻게 인증처리를 할지 결정합니다.
-                    .antMatchers("/api/v1/test/auth").permitAll()
+                    .antMatchers("/api/v1/test/auth").permitAll() // 해당 api는 인증 없이 접속 가능
                     .antMatchers("/api/v1/test/apis").permitAll()
                     .antMatchers().anonymous()
                 .anyRequest().authenticated();
