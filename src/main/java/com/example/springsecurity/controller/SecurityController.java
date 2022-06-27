@@ -14,16 +14,10 @@ public class SecurityController {
         return "Hello, World !!!";
     }
 
-
     @GetMapping("/auth")
     public String getAuth() {
 
         return "sueccess auth !!!";
     }
 
-    @GetMapping("/pass")
-    public String getPass() {
-
-        return "passed auth ...";
-    }
 }
