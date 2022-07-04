@@ -20,7 +20,21 @@ import javax.persistence.Id;
 public class User {
 
     @Id
+    @Column(name = "user_no")
+    private int userNo;
+
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "user_pw")
+    private String userPw;
+
+    @Column(name = "user_name")
+    private String userName;
+
+
+    public User findByIdandPw() {
+
+        return new User();
+    }
 }
