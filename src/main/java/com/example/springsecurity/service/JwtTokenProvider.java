@@ -1,9 +1,14 @@
 package com.example.springsecurity.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +23,8 @@ public class JwtTokenProvider {
     private String secretKey = "seung";
 
     private Long tokenValidTime = 30*60*1000L; // 30분
+
+    private final UserDetailsService userDetailsService;
 
     @PostConstruct
     protected void init() {
@@ -36,5 +43,31 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+
+    public String getUserPk(String token) {
+
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public boolean validateToken(String jwtToken) {
+
+
+        try {
+
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+
+            return !claims.getBody().getExpiration().before(new Date());
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
