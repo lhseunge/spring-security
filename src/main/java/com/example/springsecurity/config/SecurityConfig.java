@@ -16,18 +16,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    public void configure(WebSecurity web) {
-
-        web.ignoring()
-                .antMatchers("/resources/**")
-                .antMatchers("/css/**")
-                .antMatchers("/vendor/**")
-                .antMatchers("/js/**")
-                .antMatchers("/favicon*/**")
-                .antMatchers("/img/**")
-                ;
-    }
+//
+//    public void configure(WebSecurity web) {
+//
+//        web.ignoring()
+//                .antMatchers("/resources/**")
+//                .antMatchers("/css/**")
+//                .antMatchers("/vendor/**")
+//                .antMatchers("/js/**")
+//                .antMatchers("/favicon*/**")
+//                .antMatchers("/img/**")
+//                ;
+//    }
 
 
     /**
@@ -61,9 +61,9 @@ public class SecurityConfig {
                 .authorizeRequests() // 이제부터 인증절차에 대한 설정을 진행하겠다는 것입니다.
     //                .antMatchers() //특정 URL 에 대해서 어떻게 인증처리를 할지 결정합니다.
 //                    .antMatchers("/**").permitAll() // 해당 api는 인증 없이 통과시켜 누구에게나 OPEN
-                    .antMatchers("/security/v1/**").authenticated()
                     .antMatchers("/health").permitAll()
                     .antMatchers("/pass/**").permitAll()
+                    .antMatchers("/security/v1/**").authenticated()
 //                    .antMatchers().anonymous()
 //                    .anyRequest().authenticated()
                 ;
