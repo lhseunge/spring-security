@@ -12,5 +12,6 @@ public class PassController {
     public String getPass() {
 
         return "passed auth ...";
+
     }
 }
