@@ -1,36 +1,40 @@
 package com.example.springsecurity.Domain;
 
-
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
-@Builder
+@Entity
+@Table(name = "user")
 @Getter
 @Setter
-@ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
-    @Column(name = "user_no")
-    private int userNo;
-
     @Column(name = "user_id")
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-    @Column(name = "user_pw")
-    private String userPw;
+    @Column(name = "username", length = 50, unique = true)
+    private String username;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "password", length = 100)
+    private String password;
 
+    @Column(name = "nickname", length = 50)
+    private String nickname;
 
+    @Column(name = "activated")
+    private boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 }
