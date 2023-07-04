@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 @Getter
 @Setter
 @Builder
@@ -15,26 +15,26 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "username", length = 50, unique = true)
+    @Column(name = "USERNAME", length = 50, unique = true)
     private String username;
 
-    @Column(name = "password", length = 100)
+    @Column(name = "PASSWORD", length = 100)
     private String password;
 
-    @Column(name = "nickname", length = 50)
+    @Column(name = "NICKNAME", length = 50)
     private String nickname;
 
-    @Column(name = "activated")
+    @Column(name = "ACTIVATED")
     private boolean activated;
 
     @ManyToMany
     @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+            name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
 }

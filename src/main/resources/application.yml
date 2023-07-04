@@ -26,4 +26,7 @@ spring:
   logging:
     level:
       com.example: DEBUG
+  sql:
+    init:
+      mode: always
 
