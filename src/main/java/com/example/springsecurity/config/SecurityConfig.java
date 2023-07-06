@@ -67,6 +67,8 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/pass")).permitAll()
                                 .antMatchers("/pass").permitAll()
                                 .antMatchers("/security/v1/auth/**").permitAll()
+                                .antMatchers("/member/**").hasRole("ROLE_USER")
+                                .anyRequest().authenticated()
 
 
 //                        .dispatcherTypeMatchers().permitAll()
