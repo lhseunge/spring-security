@@ -30,3 +30,7 @@ spring:
     init:
       mode: always
 
+
+jwt:
+  secretKey: seungsecretkeyseungsecretkeyseungsecretkey
+  expiredTime: 1800000  # 30분

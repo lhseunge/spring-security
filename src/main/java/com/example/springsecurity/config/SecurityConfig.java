@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -27,18 +30,10 @@ public class SecurityConfig {
                 "/h2-console/**"
                 , "/favicon.ico"
                 , "/error"
+                , "/pass/**"
+                , "/pass/webconfig"
         );
     }
-//
-//        web.ignoring()
-//                .antMatchers("/resources/**")
-//                .antMatchers("/css/**")
-//                .antMatchers("/vendor/**")
-//                .antMatchers("/js/**")
-//                .antMatchers("/favicon*/**")
-//                .antMatchers("/img/**")
-//                ;
-
 
     /**
      * @param httpSecurity
@@ -64,8 +59,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //  - 스프링시큐리티가 생성하지도않고 기존것을 사용하지도 않음 -> JWT 같은토큰방식을 쓸때 사용하는 설정
                 .and()
                 .authorizeHttpRequests(request -> request
-                                .requestMatchers(new AntPathRequestMatcher("/pass")).permitAll()
-                                .antMatchers("/pass").permitAll()
+//                                .requestMatchers(new AntPathRequestMatcher("/pass")).permitAll()
+                                .antMatchers("/sign-in").permitAll()
+                                .antMatchers("/pass/**").permitAll()
                                 .antMatchers("/security/v1/auth/**").permitAll()
                                 .antMatchers("/member/**").hasRole("ROLE_USER")
                                 .anyRequest().authenticated()
@@ -102,4 +98,32 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+//
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//    }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("http://192.168.0.36:8001"); // 허용할 오리진
+//        configuration.addAllowedMethod("GET"); // 허용할 HTTP 메서드
+//        configuration.addAllowedMethod("POST");
+//        configuration.setAllowCredentials(true); // 자격 증명 허용
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/pass/lunch", configuration); // CORS를 적용할 경로
+//
+//
+//        return source;
+//    }
 }
